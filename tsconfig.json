@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "esModuleInterop": true,
+    "strict": true,
+    "target": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "jsx": "react-jsx"
+  }
+}
