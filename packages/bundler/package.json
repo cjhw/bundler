@@ -1,0 +1,17 @@
+{
+  "name": "bundler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsup ./src/rollup.ts --format cjs,esm --dts --clean --watch",
+    "build": "tsup ./src/rollup.ts --format cjs,esm --dts --clean --minify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "magic-string": "^0.30.11",
+    "ast-parser": "workspace:*"
+  }
+}
