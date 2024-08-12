@@ -82,11 +82,16 @@ export class Graph {
   }
 
   sortModules(entryModule: Module) {
+    // 拓扑排序模块数组
     const orderedModules: Module[] = [];
+    // 记录已经分析过的模块表
     const analysedModule: Record<string, boolean> = {};
+    // 记录模块的父模块 id
     const parent: Record<string, string> = {};
+    // 记录循环依赖
     const cyclePathList: string[][] = [];
 
+    // 用来回溯，用来定位循环依赖
     function getCyclePath(id: string, parentId: string): string[] {
       const paths = [id];
       let currrentId = parentId;
@@ -99,6 +104,7 @@ export class Graph {
       return paths.reverse();
     }
 
+    // 拓扑排序核心逻辑，基于依赖图的后序遍历完成
     function analyseModule(module: Module) {
       if (analysedModule[module.id]) {
         return;
@@ -118,7 +124,9 @@ export class Graph {
       orderedModules.push(module);
     }
 
+    // 从入口模块开始分析
     analyseModule(entryModule);
+    // 如果有循环依赖，则打印循环依赖信息
     if (cyclePathList.length) {
       cyclePathList.forEach((paths) => {
         console.log(paths);

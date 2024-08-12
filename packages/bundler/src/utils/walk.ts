@@ -8,7 +8,7 @@ export function walk(ast: any, { enter, leave }: { enter: any; leave: any }) {
 
 let context = {
   skip: () => (shouldSkip = true),
-  abort: () => (shouldAbort = true)
+  abort: () => (shouldAbort = true),
 };
 
 let childKeys = {} as Record<string, string[]>;
@@ -16,7 +16,7 @@ let childKeys = {} as Record<string, string[]>;
 let toString = Object.prototype.toString;
 
 function isArray(thing: Object) {
-  return toString.call(thing) === '[object Array]';
+  return toString.call(thing) === "[object Array]";
 }
 
 function visit(node: any, parent: any, enter: any, leave: any, prop?: string) {
@@ -31,7 +31,7 @@ function visit(node: any, parent: any, enter: any, leave: any, prop?: string) {
   let keys =
     childKeys[node.type] ||
     (childKeys[node.type] = Object.keys(node).filter(
-      (key) => typeof node[key] === 'object'
+      (key) => typeof node[key] === "object"
     ));
 
   let key, value;

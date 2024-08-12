@@ -91,6 +91,7 @@ export class Module {
 
   analyseAST() {
     // 以语句为最小单元来分析
+    // 如果语句为 import/export 声明，那么给当前模块记录依赖的标识符
     this.statements.forEach((statement) => {
       // 对 statement 进行分析
       statement.analyse();
@@ -212,7 +213,9 @@ export class Module {
   }
 
   bind() {
+    // 记录标识符对应的模块对象
     this.bindImportSpecifiers();
+    // 根据之前记录的 Reference 节点绑定对应的 Declaration 节点
     this.bindReferences();
   }
 
