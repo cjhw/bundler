@@ -10,7 +10,7 @@ function testFunc() {
   console.log(a);
 }
 
-function afunc (a, b) {
+function afunc(a, b) {
   return a + b;
 }
 
@@ -18,10 +18,10 @@ const dep1 = Object.freeze({
   b: b,
   multi: multi,
   testFunc: testFunc,
-  default: afunc
+  default: afunc,
 });
 
-function testDefaultFunc () {
+function testDefaultFunc() {
   console.log(1);
 }
 export const cc = dep1.b;

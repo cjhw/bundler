@@ -286,6 +286,7 @@ export class Module {
     return null;
   }
 
+  // 从导出名追溯到 Declaration 声明节点
   traceExport(name: string): Declaration | null {
     // 1. reexport
     // export { foo as bar } from './mod'

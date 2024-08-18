@@ -1,3 +1,32 @@
+"use strict";
+var __create = Object.create;
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __reExport = (target, mod, secondTarget) => (__copyProps(target, mod, "default"), secondTarget && __copyProps(secondTarget, mod, "default"));
+var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
+  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+  mod
+));
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 var __async = (__this, __arguments, generator) => {
   return new Promise((resolve3, reject) => {
     var fulfilled = (value) => {
@@ -19,15 +48,22 @@ var __async = (__this, __arguments, generator) => {
   });
 };
 
+// src/rollup.ts
+var rollup_exports = {};
+__export(rollup_exports, {
+  rollup: () => rollup
+});
+module.exports = __toCommonJS(rollup_exports);
+
 // src/Bundle.ts
-import * as MagicString2 from "magic-string";
+var MagicString2 = __toESM(require("magic-string"), 1);
 
 // src/Graph.ts
-import { dirname as dirname2, resolve as resolve2 } from "path";
+var import_path2 = require("path");
 
 // src/Module.ts
-import MagicString from "magic-string";
-import { parse } from "ast-parser";
+var import_magic_string = __toESM(require("magic-string"), 1);
+var import_ast_parser3 = require("ast-parser");
 
 // src/utils/obejct.ts
 var keys = Object.keys;
@@ -83,13 +119,13 @@ var SyntheticDefaultDeclaration = class extends Declaration {
   }
 };
 var SyntheticNamespaceDeclaration = class extends Declaration {
-  constructor(module) {
+  constructor(module2) {
     super(null, false, null);
     this.originals = {};
     this.needsNamespaceBlock = false;
-    this.module = module;
-    module.getExports().forEach((name) => {
-      const declaration = module.traceExport(name);
+    this.module = module2;
+    module2.getExports().forEach((name) => {
+      const declaration = module2.traceExport(name);
       if (declaration) {
         this.originals[name] = declaration;
       }
@@ -167,15 +203,15 @@ var Scope = class {
 };
 
 // src/utils/isFunctionDeclaration.ts
-import { NodeType } from "ast-parser";
+var import_ast_parser = require("ast-parser");
 function isFunctionDeclaration(node) {
   if (!node) return false;
   return (
     // function foo() {}
     node.type === "FunctionDeclaration" || // const foo = function() {}
-    node.type === NodeType.VariableDeclarator && node.init && node.init.type === NodeType.FunctionExpression || // export function ...
+    node.type === import_ast_parser.NodeType.VariableDeclarator && node.init && node.init.type === import_ast_parser.NodeType.FunctionExpression || // export function ...
     // export default function
-    (node.type === NodeType.ExportNamedDeclaration || node.type === NodeType.ExportDefaultDeclaration) && !!node.declaration && node.declaration.type === NodeType.FunctionDeclaration
+    (node.type === import_ast_parser.NodeType.ExportNamedDeclaration || node.type === import_ast_parser.NodeType.ExportDefaultDeclaration) && !!node.declaration && node.declaration.type === import_ast_parser.NodeType.FunctionDeclaration
   );
 }
 function isExportDeclaration(node) {
@@ -229,18 +265,16 @@ function visit(node, parent, enter, leave, prop) {
 }
 
 // src/utils/buildScope.ts
-import {
-  NodeType as NodeType2
-} from "ast-parser";
+var import_ast_parser2 = require("ast-parser");
 function buildScope(statement) {
   const { node, scope: initialScope } = statement;
   let scope = initialScope;
   walk(node, {
     enter(node2) {
-      if (node2.type === NodeType2.FunctionDeclaration) {
+      if (node2.type === import_ast_parser2.NodeType.FunctionDeclaration) {
         scope.addDeclaration(node2, false);
       }
-      if (node2.type === NodeType2.VariableDeclaration) {
+      if (node2.type === import_ast_parser2.NodeType.VariableDeclaration) {
         const currentNode = node2;
         const isBlockDeclaration = currentNode.kind !== "var";
         currentNode.declarations.forEach((declarator) => {
@@ -248,7 +282,7 @@ function buildScope(statement) {
         });
       }
       let newScope;
-      if (node2.type === NodeType2.FunctionDeclaration) {
+      if (node2.type === import_ast_parser2.NodeType.FunctionDeclaration) {
         const currentNode = node2;
         newScope = new Scope({
           parent: scope,
@@ -257,7 +291,7 @@ function buildScope(statement) {
           statement
         });
       }
-      if (node2.type === NodeType2.BlockStatement) {
+      if (node2.type === import_ast_parser2.NodeType.BlockStatement) {
         newScope = new Scope({
           parent: scope,
           block: true,
@@ -335,7 +369,7 @@ function findReference(statement) {
 
 // src/Statement.ts
 var Statement = class {
-  constructor(node, magicString, module) {
+  constructor(node, magicString, module2) {
     this.isIncluded = false;
     this.defines = /* @__PURE__ */ new Set();
     this.modifies = /* @__PURE__ */ new Set();
@@ -343,7 +377,7 @@ var Statement = class {
     this.references = [];
     this.magicString = magicString;
     this.node = node;
-    this.module = module;
+    this.module = module2;
     this.scope = new Scope({
       statement: this
     });
@@ -387,13 +421,13 @@ var Module = class {
     this.isEntry = isEntry;
     this.path = path;
     this.code = code;
-    this.magicString = new MagicString(code);
+    this.magicString = new import_magic_string.default(code);
     this.imports = {};
     this.exports = {};
     this.reexports = {};
     this.declarations = {};
     try {
-      const ast = parse(code);
+      const ast = (0, import_ast_parser3.parse)(code);
       const nodes = ast.body;
       this.statements = nodes.map((node) => {
         const magicString = this.magicString.snip(node.start, node.end);
@@ -524,8 +558,8 @@ var Module = class {
     this.dependencyModules = this.dependencies.map(
       this._getModuleBySource.bind(this)
     );
-    this.dependencyModules.forEach((module) => {
-      module.referencedModules.push(this);
+    this.dependencyModules.forEach((module2) => {
+      module2.referencedModules.push(this);
     });
   }
   bindReferences() {
@@ -666,7 +700,7 @@ ${namespaceDeclaration.renderBlock()}
       ...keys(this.exports),
       ...keys(this.reexports),
       ...this.exportAllModules.map(
-        (module) => module.getExports().filter((name) => name !== "default")
+        (module2) => module2.getExports().filter((name) => name !== "default")
       ).flat()
     ];
   }
@@ -677,16 +711,16 @@ ${namespaceDeclaration.renderBlock()}
 };
 
 // src/utils/resolve.ts
-import { dirname, isAbsolute, resolve, extname } from "path";
+var import_path = require("path");
 function defaultResolver(id, importer) {
-  if (isAbsolute(id)) return id;
+  if ((0, import_path.isAbsolute)(id)) return id;
   if (!id.startsWith(".")) return false;
-  const resolvedPath = importer ? resolve(dirname(importer), id) : resolve(id);
+  const resolvedPath = importer ? (0, import_path.resolve)((0, import_path.dirname)(importer), id) : (0, import_path.resolve)(id);
   return resolvedPath;
 }
 
 // src/ModuleLoader.ts
-import { readFile } from "fs/promises";
+var import_promises = require("fs/promises");
 var ModuleLoader = class {
   constructor(bundle) {
     this.resolveIdsMap = /* @__PURE__ */ new Map();
@@ -713,24 +747,24 @@ var ModuleLoader = class {
       if (existModule) {
         return existModule;
       }
-      const code = yield readFile(path, { encoding: "utf-8" });
-      const module = new Module({
+      const code = yield (0, import_promises.readFile)(path, { encoding: "utf-8" });
+      const module2 = new Module({
         path,
         code,
         bundle,
         loader,
         isEntry
       });
-      this.bundle.addModule(module);
-      yield this.fetchAllDependencies(module);
-      return module;
+      this.bundle.addModule(module2);
+      yield this.fetchAllDependencies(module2);
+      return module2;
     });
   }
-  fetchAllDependencies(module) {
+  fetchAllDependencies(module2) {
     return __async(this, null, function* () {
       yield Promise.all(
-        module.dependencies.map((dep) => {
-          return this.fetchModule(dep, module.path);
+        module2.dependencies.map((dep) => {
+          return this.fetchModule(dep, module2.path);
         })
       );
     });
@@ -746,8 +780,8 @@ var Graph = class {
     this.resolveIds = {};
     this.orderedModules = [];
     const { entry, bundle } = options;
-    this.entryPath = resolve2(entry);
-    this.basedir = dirname2(this.entryPath);
+    this.entryPath = (0, import_path2.resolve)(entry);
+    this.basedir = (0, import_path2.dirname)(this.entryPath);
     this.bundle = bundle;
     this.moduleLoader = new ModuleLoader(bundle);
   }
@@ -758,7 +792,7 @@ var Graph = class {
         null,
         true
       );
-      this.modules.forEach((module) => module.bind());
+      this.modules.forEach((module2) => module2.bind());
       this.orderedModules = this.sortModules(entryModule);
       entryModule.getExports().forEach((name) => {
         const declaration = entryModule.traceExport(name);
@@ -778,9 +812,9 @@ var Graph = class {
       used[safeName] = true;
       return safeName;
     }
-    this.modules.forEach((module) => {
-      keys(module.declarations).forEach((name) => {
-        const declaration = module.declarations[name];
+    this.modules.forEach((module2) => {
+      keys(module2.declarations).forEach((name) => {
+        const declaration = module2.declarations[name];
         declaration.name = getSafeName(declaration.name);
       });
     });
@@ -788,10 +822,10 @@ var Graph = class {
   getModuleById(id) {
     return this.moduleById[id];
   }
-  addModule(module) {
-    if (!this.moduleById[module.id]) {
-      this.moduleById[module.id] = module;
-      this.modules.push(module);
+  addModule(module2) {
+    if (!this.moduleById[module2.id]) {
+      this.moduleById[module2.id] = module2;
+      this.modules.push(module2);
     }
   }
   sortModules(entryModule) {
@@ -809,22 +843,22 @@ var Graph = class {
       paths.push(paths[0]);
       return paths.reverse();
     }
-    function analyseModule(module) {
-      if (analysedModule[module.id]) {
+    function analyseModule(module2) {
+      if (analysedModule[module2.id]) {
         return;
       }
-      for (const dependency of module.dependencyModules) {
+      for (const dependency of module2.dependencyModules) {
         if (parent[dependency.id]) {
           if (!analysedModule[dependency.id]) {
-            cyclePathList.push(getCyclePath(dependency.id, module.id));
+            cyclePathList.push(getCyclePath(dependency.id, module2.id));
           }
           continue;
         }
-        parent[dependency.id] = module.id;
+        parent[dependency.id] = module2.id;
         analyseModule(dependency);
       }
-      analysedModule[module.id] = true;
-      orderedModules.push(module);
+      analysedModule[module2.id] = true;
+      orderedModules.push(module2);
     }
     analyseModule(entryModule);
     if (cyclePathList.length) {
@@ -853,14 +887,14 @@ var Bundle2 = class {
   getModuleById(id) {
     return this.graph.getModuleById(id);
   }
-  addModule(module) {
-    return this.graph.addModule(module);
+  addModule(module2) {
+    return this.graph.addModule(module2);
   }
   render() {
     let msBundle = new MagicString2.Bundle({ separator: "\n" });
-    this.graph.orderedModules.forEach((module) => {
+    this.graph.orderedModules.forEach((module2) => {
       msBundle.addSource({
-        content: module.render()
+        content: module2.render()
       });
     });
     const map = msBundle.generateMap({
@@ -874,16 +908,16 @@ var Bundle2 = class {
 };
 
 // src/rollup.ts
-import fs from "fs";
-import { dirname as dirname3 } from "path";
-export * from "ast-parser";
+var import_node_fs = __toESM(require("fs"), 1);
+var import_node_path = require("path");
+__reExport(rollup_exports, require("ast-parser"), module.exports);
 var existsSync = (dirname4) => {
-  return fs.existsSync(dirname4);
+  return import_node_fs.default.existsSync(dirname4);
 };
 var createDir = (path) => {
   return new Promise((resolve3, reject) => {
     const lastPath = path.substring(0, path.lastIndexOf("/"));
-    fs.mkdir(lastPath, { recursive: true }, (error) => {
+    import_node_fs.default.mkdir(lastPath, { recursive: true }, (error) => {
       if (error) {
         reject({ success: false });
       } else {
@@ -894,7 +928,7 @@ var createDir = (path) => {
 };
 var writeFile = (path, content, format = "utf-8") => {
   return new Promise((resolve3, reject) => {
-    fs.writeFile(
+    import_node_fs.default.writeFile(
       path,
       content,
       {
@@ -925,7 +959,7 @@ function rollup(options) {
       generate,
       write: () => __async(this, null, function* () {
         const { code, map } = generate();
-        if (!existsSync(dirname3(output))) {
+        if (!existsSync((0, import_node_path.dirname)(output))) {
           yield createDir(output);
         }
         return Promise.all([
@@ -936,6 +970,8 @@ function rollup(options) {
     };
   });
 }
-export {
-  rollup
-};
+// Annotate the CommonJS export names for ESM import in node:
+0 && (module.exports = {
+  rollup,
+  ...require("ast-parser")
+});

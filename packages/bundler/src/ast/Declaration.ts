@@ -36,7 +36,9 @@ export class Declaration {
   }
 
   use() {
+    // 标记该节点被使用
     this.isUsed = true;
+    // 对应的 statement 节点也应该被标记
     if (this.statement) {
       this.statement.mark();
     }
