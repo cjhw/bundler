@@ -378,7 +378,7 @@ export class Parser {
         expresion = this._parseMemberExpression(expresion as MemberExpression);
       } else if (this._checkCurrentTokenType(TokenType.Operator)) {
         // 解析 a + b
-        expresion = this.__parseBinaryOperatorExpression(expresion);
+        expresion = this._parseBinaryOperatorExpression(expresion);
       } else {
         break;
       }
@@ -386,7 +386,7 @@ export class Parser {
     return expresion;
   }
 
-  private __parseBinaryOperatorExpression(
+  private _parseBinaryOperatorExpression(
     expression: Expression
   ): BinaryExpression {
     const { start } = this._getCurrentToken();
