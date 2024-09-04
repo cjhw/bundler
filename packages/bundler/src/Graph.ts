@@ -45,16 +45,17 @@ export class Graph {
       const declaration = entryModule!.traceExport(name);
       declaration!.use();
     });
-    entryModule!.statements
-      .filter(
-        (statement) =>
-          !statement.isExportDeclaration &&
-          !statement.isImportDeclaration &&
-          !statement.isReexportDeclaration
-      )
-      .forEach((statement) => {
-        statement.mark();
-      });
+    // 5. 标记entry模块的语句防止被shaking掉
+    // entryModule!.statements
+    //   .filter(
+    //     (statement) =>
+    //       !statement.isExportDeclaration &&
+    //       !statement.isImportDeclaration &&
+    //       !statement.isReexportDeclaration
+    //   )
+    //   .forEach((statement) => {
+    //     statement.mark();
+    //   });
     // 5. 处理命名冲突
     this.doconflict();
   }
